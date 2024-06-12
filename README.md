@@ -2,6 +2,8 @@
 
 ### REACT NATIVE TARJETA DE CREDITO
 
+ * ver documentacion doc/TDC React Native.docx
+
 #### Proyecto de TDC en React Native: Modelo
 ![image](https://github.com/wlopera/TDCReactNative/assets/7141537/582944fe-f220-43cd-b32f-45b7bb1199f0)
 ![image](https://github.com/wlopera/TDCReactNative/assets/7141537/8169291d-e959-4c86-be18-688c09743f23)
