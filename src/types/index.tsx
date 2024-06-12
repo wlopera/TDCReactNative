@@ -17,3 +17,26 @@ export type FrontImageProps = {
   name: string;
   date: string;
 };
+
+export type TextNumberProps = {
+  value: string;
+  onChange: (value: string, text: string) => void;
+};
+
+export type TextDateProps = {
+  value: string;
+  onChange: (text: string) => void;
+};
+
+export type BackImageProps = {
+  cvc: string;
+};
+
+export type ItemProps = {title: string};
+
+export type ItemSeletedProps = {
+  id: string;
+  front: string;
+  back: string;
+  title: string;
+};

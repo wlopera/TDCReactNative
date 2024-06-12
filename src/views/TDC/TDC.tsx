@@ -6,54 +6,93 @@ import {
   TextInput,
   StyleSheet,
   ImageSourcePropType,
+  Button,
 } from 'react-native';
 import FrontImage from '../../components/TDCImage/FrontImage';
 import TypeImageMap from '../../components/TypeImage/TypeImageMap';
+import TDCInput from '../../components/TDCInput';
+import TDCDate from '../../components/TDCDate';
+import BackImage from '../../components/TDCImage/BackImage';
+import TDCPicker from '../../components/TDCPicker/TDCPicker';
 
-const MyScreen = () => {
+const NUMBER_BASE = '**** **** **** ****';
+
+const TDC = () => {
   const [urlLogo, setUrlLogo] = useState(
     require('../../assets/logos/master-logo.png'),
   );
   const [number, setNumber] = useState('');
+  const [textNumber, setTextNumber] = useState(NUMBER_BASE);
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
+  const [cvc, setCvc] = useState('');
+  const [isCVC, setIsCVC] = useState(false);
 
   const handleLogoPress = (url: ImageSourcePropType) => {
+    if (isCVC) {
+      return;
+    }
     setUrlLogo(url);
   };
 
-  const handleNumberPress = (text: string) => {
-    console.log(123, text.length, text);
-    setNumber(text.length === 0 ? '**** **** **** ****' : text);
+  const handleClean = () => {
+    setNumber('');
+    setTextNumber(NUMBER_BASE);
+    setName('');
+    setDate('');
+    setCvc('');
+  };
+
+  const handleNumber = (value: string, text: string) => {
+    setNumber(value);
+    setTextNumber(text);
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.nortContainer}>
-        <FrontImage urlLogo={urlLogo} number={number} name={name} date={date} />
+        <View style={styles.botton}>
+          <TDCPicker />
+          <Button title="Limpiar" onPress={handleClean} />
+        </View>
+
+        {isCVC ? (
+          <BackImage cvc={cvc} />
+        ) : (
+          <FrontImage
+            urlLogo={urlLogo}
+            number={textNumber}
+            name={name}
+            date={date}
+          />
+        )}
+
         <TypeImageMap press={handleLogoPress} />
       </View>
 
       <View style={styles.sourthContainer}>
         <ScrollView>
-          <TextInput
-            style={styles.numberInput}
-            placeholder="Número de tarjeta"
-            value={number}
-            onChangeText={handleNumberPress}
-          />
+          <TDCInput value={number} onChange={handleNumber} />
           <TextInput
             style={styles.nameInput}
             placeholder="Nombre del usuario"
             value={name}
+            maxLength={20}
             onChangeText={input => setName(input.toUpperCase())}
           />
-          <TextInput
-            style={styles.dateInput}
-            placeholder="Fecha de expedición"
-            value={date}
-            onChangeText={input => setDate(input.toUpperCase())}
-          />
+          <View style={styles.dataView}>
+            <TDCDate value={date} onChange={setDate} />
+            <TextInput
+              style={styles.cvcInput}
+              placeholder="CVC"
+              value={cvc}
+              maxLength={3}
+              onChangeText={setCvc}
+              keyboardType="numeric"
+              onFocus={() => setIsCVC(true)}
+              onBlur={() => setIsCVC(false)}
+            />
+          </View>
         </ScrollView>
       </View>
     </View>
@@ -65,8 +104,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   nortContainer: {
-    height: 300,
-    backgroundColor: '#056740',
+    height: 320,
+    backgroundColor: '#FFF',
+  },
+  botton: {
+    width: 300,
+    height: 35,
+    alignSelf: 'flex-end',
+    right: 25,
+    margin: -8,
+    flexDirection: 'row',
+    zIndex: 10,
   },
   image: {
     width: '100%',
@@ -76,20 +124,9 @@ const styles = StyleSheet.create({
   },
   sourthContainer: {
     flex: 1,
-    backgroundColor: '#056740',
     marginBottom: 10,
     paddingTop: 20,
     paddingBottom: 20,
-  },
-  numberInput: {
-    borderRadius: 4,
-    padding: 2,
-    marginVertical: 8,
-    marginHorizontal: 10,
-    width: '95%',
-    backgroundColor: '#52e16aec',
-    fontSize: 24,
-    color: '#000',
   },
   nameInput: {
     borderRadius: 4,
@@ -97,23 +134,23 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 10,
     width: '95%',
-    backgroundColor: '#52e16aec',
+    borderWidth: 1,
+    borderColor: '#a19e9e',
     fontSize: 24,
     color: '#000',
   },
-  dateInput: {
+  cvcInput: {
     borderRadius: 4,
     padding: 2,
     marginVertical: 8,
     marginHorizontal: 10,
-    width: '95%',
-    backgroundColor: '#52e16aec',
+    width: '45%',
+    borderWidth: 1,
+    borderColor: '#a19e9e',
     fontSize: 24,
     color: '#000',
   },
-  space: {
-    paddingBottom: 20,
-  },
+  dataView: {flexDirection: 'row'},
 });
 
-export default MyScreen;
+export default TDC;
