@@ -3,7 +3,7 @@ import {Animated, StyleSheet, Text, View} from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
 import {BackImageProps} from '../../../types';
 
-const BackImage: FC<BackImageProps> = ({cvc}) => {
+const BackImage: FC<BackImageProps> = ({url, cvc}) => {
   const fadeAnim = useState(new Animated.Value(0))[0];
   const [showValue, setShowValue] = useState(false);
 
@@ -20,7 +20,7 @@ const BackImage: FC<BackImageProps> = ({cvc}) => {
   return (
     <View style={styles.container}>
       <Animated.Image
-        source={require('../../../assets/tdc/card-black-back.png')}
+        source={url}
         style={[styles.image, {opacity: fadeAnim}]}
       />
       {showValue && (

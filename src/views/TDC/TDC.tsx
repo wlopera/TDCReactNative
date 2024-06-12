@@ -7,6 +7,8 @@ import {
   StyleSheet,
   ImageSourcePropType,
   Button,
+  TouchableOpacity,
+  Text,
 } from 'react-native';
 import FrontImage from '../../components/TDCImage/FrontImage';
 import TypeImageMap from '../../components/TypeImage/TypeImageMap';
@@ -27,6 +29,10 @@ const TDC = () => {
   const [date, setDate] = useState('');
   const [cvc, setCvc] = useState('');
   const [isCVC, setIsCVC] = useState(false);
+  const [tdcImage, setTdcImage] = useState({
+    front: require('../../assets/tdc/card-black-front.png'),
+    back: require('../../assets/tdc/card-black-back.png'),
+  });
 
   const handleLogoPress = (url: ImageSourcePropType) => {
     if (isCVC) {
@@ -48,25 +54,38 @@ const TDC = () => {
     setTextNumber(text);
   };
 
+  const handleTDCColor = (
+    front: ImageSourcePropType,
+    back: ImageSourcePropType,
+  ) => {
+    setTdcImage({front, back});
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.nortContainer}>
-        <View style={styles.botton}>
-          <TDCPicker />
-          <Button title="Limpiar" onPress={handleClean} />
+        <View style={styles.bottons}>
+          <View style={styles.picker}>
+            <TDCPicker press={handleTDCColor} />
+          </View>
+          <View style={styles.botton}>
+            <TouchableOpacity onPress={handleClean} style={styles.botton}>
+              <Text style={styles.bottonText}>Limpiar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         {isCVC ? (
-          <BackImage cvc={cvc} />
+          <BackImage cvc={cvc} url={tdcImage.back} />
         ) : (
           <FrontImage
+            url={tdcImage.front}
             urlLogo={urlLogo}
             number={textNumber}
             name={name}
             date={date}
           />
         )}
-
         <TypeImageMap press={handleLogoPress} />
       </View>
 
@@ -107,14 +126,29 @@ const styles = StyleSheet.create({
     height: 320,
     backgroundColor: '#FFF',
   },
-  botton: {
-    width: 300,
+  bottons: {
     height: 35,
-    alignSelf: 'flex-end',
-    right: 25,
     margin: -8,
     flexDirection: 'row',
+  },
+  picker: {
+    flex: 1,
+    alignItems: 'flex-start',
+    marginLeft: 25,
     zIndex: 10,
+  },
+  botton: {
+    backgroundColor: '#0081F1',
+    height: '100%',
+    width: 90,
+    marginRight: 30,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    borderRadius: 25,
+  },
+  bottonText: {
+    fontSize: 20,
+    color: '#FFF',
   },
   image: {
     width: '100%',

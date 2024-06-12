@@ -20,6 +20,7 @@ const TDCDate: FC<TextDateProps> = ({value, onChange}) => {
 
     onChange(data);
   };
+
   return (
     <TextInput
       style={styles.textInput}

@@ -1,7 +1,14 @@
 /* eslint-disable prettier/prettier */
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
-import {ItemProps, ItemSeletedProps} from '../../types';
+import {
+  FlatList,
+  Keyboard,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {FC, useState} from 'react';
+import {ItemProps, ItemSeletedProps, TDCPickerProps} from '../../types';
 
 const Item = ({title}: ItemProps) => (
   <View style={styles.item}>
@@ -12,10 +19,11 @@ const Item = ({title}: ItemProps) => (
 const DATA = [
   {
     id: '1',
-    front: require('../../assets/tdc/card-black-front.png'),
-    back: require('../../assets/tdc/card-black-back.png'),
+    front: require('../../assets/tdc/card-red-front.png'),
+    back: require('../../assets/tdc/card-red-back.png'),
     title: 'Rojo',
   },
+
   {
     id: '2',
     front: require('../../assets/tdc/card-blue-front.png'),
@@ -24,30 +32,29 @@ const DATA = [
   },
   {
     id: '3',
-    front: require('../../assets/tdc/card-red-front.png'),
-    back: require('../../assets/tdc/card-red-back.png'),
+    front: require('../../assets/tdc/card-black-front.png'),
+    back: require('../../assets/tdc/card-black-back.png'),
     title: 'Negro',
   },
 ];
 
-const TDCPicker = () => {
+const TDCPicker: FC<TDCPickerProps> = ({press}) => {
   const [show, setShow] = useState(false);
 
   const handleItemSelected = (item: ItemSeletedProps) => {
-    console.log(123, item);
+    press(item.front, item.back);
     setShow(prevValue => !prevValue);
   };
 
   const handleShow = () => {
     setShow(prevValue => !prevValue);
+    Keyboard.dismiss();
   };
 
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={handleShow} style={styles.comboBoton}>
-        <Text style={styles.comboText}>
-          {show ? 'Ocultar lista de Colores' : 'Mostrar Lista de colores'}
-        </Text>
+        <Text style={styles.comboText}>{show ? 'Ocultar' : 'Color'}</Text>
       </TouchableOpacity>
       {show && (
         <FlatList
@@ -68,24 +75,27 @@ export default TDCPicker;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: 100,
     height: 300,
   },
   item: {
-    backgroundColor: '#0a065c',
+    backgroundColor: '#e6e4e4',
     marginVertical: 1,
     marginHorizontal: 8,
+    borderWidth: 1,
+    borderColor: '#a19e9e',
   },
   title: {
     fontSize: 24,
-    color: '#FFF',
+    color: '#000',
   },
   comboBoton: {
-    backgroundColor: '0081F1',
+    backgroundColor: '#0081F1',
     height: 35,
     marginRight: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 25,
   },
   comboText: {
     fontSize: 20,

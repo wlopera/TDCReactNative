@@ -12,6 +12,7 @@ export type TypeImageActionProps = {
 export type TypeImageProps = TypeImageItemProps & TypeImageActionProps;
 
 export type FrontImageProps = {
+  url: ImageSourcePropType;
   urlLogo: ImageSourcePropType;
   number: string;
   name: string;
@@ -29,6 +30,7 @@ export type TextDateProps = {
 };
 
 export type BackImageProps = {
+  url: ImageSourcePropType;
   cvc: string;
 };
 
@@ -36,7 +38,11 @@ export type ItemProps = {title: string};
 
 export type ItemSeletedProps = {
   id: string;
-  front: string;
-  back: string;
+  front: ImageSourcePropType;
+  back: ImageSourcePropType;
   title: string;
+};
+
+export type TDCPickerProps = {
+  press: (front: ImageSourcePropType, back: ImageSourcePropType) => void;
 };
