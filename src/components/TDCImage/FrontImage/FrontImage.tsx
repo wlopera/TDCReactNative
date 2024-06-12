@@ -4,6 +4,7 @@ import React, {FC} from 'react';
 import {FrontImageProps} from '../../../types';
 
 const FrontImage: FC<FrontImageProps> = ({
+  url,
   urlLogo,
   number = '**** **** **** ****',
   name = 'NOMBRE',
@@ -11,10 +12,7 @@ const FrontImage: FC<FrontImageProps> = ({
 }) => {
   return (
     <View style={styles.constainer}>
-      <Image
-        source={require('../../../assets/tdc/card-blue-front.png')}
-        style={styles.image}
-      />
+      <Image source={url} style={styles.image} />
 
       <Image source={urlLogo} style={styles.logo} />
 
@@ -54,7 +52,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '22%',
     height: '22%',
-    top: 30,
+    top: 20,
     right: 30,
     borderRadius: 4,
   },
